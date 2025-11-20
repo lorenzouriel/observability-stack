@@ -1,4 +1,4 @@
-# Monitoring Stack
+# Observability Stack
 
 A production-ready observability stack using OpenTelemetry, Prometheus, Loki, Tempo, and Grafana.
 
@@ -181,25 +181,3 @@ docker run --rm -v monitor_prometheus-data:/data -v $(pwd):/backup ubuntu tar cz
 docker run --rm -v monitor_loki-data:/data -v $(pwd):/backup ubuntu tar czf /backup/loki-backup.tar.gz /data
 docker run --rm -v monitor_grafana-data:/data -v $(pwd):/backup ubuntu tar czf /backup/grafana-backup.tar.gz /data
 ```
-
-## Production Considerations
-
-### Security
-
-- Change default Grafana password immediately
-- Enable authentication on Prometheus and other services
-- Use TLS certificates (not included in this setup)
-- Restrict network access using firewalls
-
-### Scalability
-
-- Consider using remote storage for Prometheus (e.g., Thanos, Cortex)
-- Use distributed Loki with object storage
-- Deploy Tempo with object storage backend
-- Add load balancers for high availability
-
-### Monitoring the Monitors
-
-- Set up alerts in Prometheus for service health
-- Monitor disk usage for data volumes
-- Set up external health checks

@@ -19,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -65,7 +65,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -88,7 +89,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "10.3.3",
       "targets": [
@@ -137,7 +140,8 @@
               }
             ]
           },
-          "unit": "reqps"
+          "unit": "reqps",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -160,7 +164,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "10.3.3",
       "targets": [
@@ -201,7 +207,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -224,7 +231,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "10.3.3",
       "targets": [
@@ -265,7 +274,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -288,7 +298,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "10.3.3",
       "targets": [
@@ -361,7 +373,8 @@
               }
             ]
           },
-          "unit": "reqps"
+          "unit": "reqps",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -456,7 +469,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -550,7 +564,8 @@
               }
             ]
           },
-          "unit": "bytes"
+          "unit": "bytes",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -656,7 +671,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -763,7 +779,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": [
           {
@@ -871,8 +888,8 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "sum by (severity_text) (count_over_time({service_name=\"greenhouse-app\"} | json [$__interval]))",
-          "legendFormat": "{{severity_text}}",
+          "expr": "sum by (level) (count_over_time({job=\"greenhouse-app\"} | json [$__interval]))",
+          "hide": false,
           "queryType": "range",
           "refId": "A"
         }
@@ -909,8 +926,9 @@
             "type": "loki",
             "uid": "loki"
           },
-          "editorMode": "code",
-          "expr": "{service_name=\"greenhouse-app\"} | json",
+          "editorMode": "builder",
+          "expr": "{job=\"greenhouse-app\"} | json",
+          "hide": false,
           "queryType": "range",
           "refId": "A"
         }
@@ -947,8 +965,9 @@
             "type": "loki",
             "uid": "loki"
           },
-          "editorMode": "code",
-          "expr": "{service_name=\"greenhouse-app\"} | json | severity_text =~ \"ERROR|CRITICAL\"",
+          "editorMode": "builder",
+          "expr": "{job=\"greenhouse-app\", level!=\"WARN\"} |= ``",
+          "hide": false,
           "queryType": "range",
           "refId": "A"
         }
@@ -985,8 +1004,9 @@
             "type": "loki",
             "uid": "loki"
           },
-          "editorMode": "code",
-          "expr": "{service_name=\"greenhouse-app\"} |~ \"Processing request\"",
+          "editorMode": "builder",
+          "expr": "{job=\"greenhouse-app\", level=\"WARN\"} |= ``",
+          "hide": false,
           "queryType": "range",
           "refId": "A"
         }
@@ -1013,6 +1033,59 @@
         "uid": "tempo"
       },
       "description": "Search for traces from the greenhouse-app",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "traceID"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "View Trace",
+                    "url": "/explore?orgId=1&left=%7B%22datasource%22:%22tempo%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22tempo%22,%22uid%22:%22tempo%22%7D,%22queryType%22:%22traceql%22,%22query%22:%22${__value.raw}%22%7D%5D%7D"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Duration"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ns"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 10,
         "w": 24,
@@ -1020,33 +1093,34 @@
         "y": 51
       },
       "id": 16,
-      "options": {},
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
             "type": "tempo",
             "uid": "tempo"
           },
-          "filters": [
-            {
-              "id": "service-name",
-              "operator": "=",
-              "scope": "resource",
-              "tag": "service.name",
-              "value": [
-                "greenhouse-app"
-              ],
-              "valueType": "string"
-            }
-          ],
           "limit": 20,
-          "queryType": "traceqlSearch",
+          "query": "{resource.service.name=\"greenhouse-app\"}",
+          "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
         }
       ],
       "title": "Trace Search",
-      "type": "traces"
+      "type": "table"
     },
     {
       "datasource": {
@@ -1072,6 +1146,11 @@
           },
           "filters": [
             {
+              "id": "4001dff0",
+              "operator": "=",
+              "scope": "span"
+            },
+            {
               "id": "service-name",
               "operator": "=",
               "scope": "resource",
@@ -1080,9 +1159,18 @@
                 "greenhouse-app"
               ],
               "valueType": "string"
+            },
+            {
+              "id": "span-name",
+              "operator": "=",
+              "scope": "span",
+              "tag": "name",
+              "value": [],
+              "valueType": "string"
             }
           ],
           "limit": 20,
+          "query": "{resource.service.name=\"greenhouse-app\"}",
           "queryType": "traceqlSearch",
           "refId": "A",
           "tableType": "traces"
@@ -1093,8 +1181,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "tempo",
+        "uid": "tempo"
       },
       "description": "Span duration histogram from Tempo metrics",
       "fieldConfig": {
@@ -1144,7 +1232,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1172,14 +1261,41 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "tempo",
+            "uid": "tempo"
           },
-          "editorMode": "code",
-          "expr": "rate(traces_spanmetrics_latency_count{service=\"greenhouse-app\"}[5m])",
-          "legendFormat": "{{span_name}}",
-          "range": true,
-          "refId": "A"
+          "filters": [
+            {
+              "id": "02913aa8",
+              "operator": "=",
+              "scope": "span"
+            },
+            {
+              "id": "service-name",
+              "operator": "=",
+              "scope": "resource",
+              "tag": "service.name",
+              "value": [
+                "greenhouse-app"
+              ],
+              "valueType": "string"
+            },
+            {
+              "id": "span-name",
+              "operator": "=",
+              "scope": "span",
+              "tag": "name",
+              "value": [
+                "process_request"
+              ],
+              "valueType": "string"
+            }
+          ],
+          "limit": 20,
+          "query": "{resource.service.name=\"greenhouse-app\"}",
+          "queryType": "traceqlSearch",
+          "refId": "A",
+          "tableType": "traces"
         }
       ],
       "title": "Trace Span Rate",
@@ -1252,7 +1368,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1346,7 +1463,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1369,7 +1487,9 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "10.3.3",
       "targets": [
@@ -1403,13 +1523,13 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Greenhouse App - Full Observability",
   "uid": "greenhouse-app-observability",
-  "version": 1,
+  "version": 10,
   "weekStart": ""
 }
