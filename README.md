@@ -1,6 +1,7 @@
 # Observability Stack
 
 A production-ready observability stack using OpenTelemetry, Prometheus, Loki, Tempo, and Grafana.
+![architecture](/docs/architecture.png)
 
 ## Architecture
 
