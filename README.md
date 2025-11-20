@@ -1,8 +1,11 @@
 # Observability Stack
 
-Observability stack using OpenTelemetry, Prometheus, Loki, Tempo, and Grafana.
+[![GitHub stars](https://img.shields.io/github/stars/lorenzouriel/observability-stack?style=social)](https://github.com/lorenzouriel/observability-stack/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/lorenzouriel/observability-stack?style=social)](https://github.com/lorenzouriel/observability-stack/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/lorenzouriel/observability-stack)](https://github.com/lorenzouriel/observability-stack/issues)
+[![GitHub release](https://img.shields.io/github/v/release/lorenzouriel/observability-stack)](https://github.com/lorenzouriel/observability-stack/releases)
 
-![architecture](/docs/architecture.png)
+Observability stack using OpenTelemetry, Prometheus, Loki, Tempo, and Grafana.
 
 ## Architecture
 
@@ -11,6 +14,8 @@ This stack implements the three pillars of observability:
 - **Metrics**: Prometheus for metrics storage and querying
 - **Logs**: Loki for log aggregation and searching
 - **Traces**: Tempo for distributed tracing
+
+![architecture](/docs/architecture.png)
 
 ### Components
 
