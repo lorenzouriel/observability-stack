@@ -15,7 +15,9 @@ This stack implements the three pillars of observability:
 - **Logs**: Loki for log aggregation and searching
 - **Traces**: Tempo for distributed tracing
 
-![architecture](/docs/architecture.png)
+<div align="center">
+  <img src="docs/architecture.png" alt="architecture">
+</div>
 
 ### Components
 
